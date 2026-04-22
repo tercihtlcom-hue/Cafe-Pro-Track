@@ -1,0 +1,3136 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cafe Pro-Track</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #0d0d0f;
+        --surface: #141416;
+        --card: #1a1a1f;
+        --card2: #1e1e25;
+        --border: #2a2a35;
+        --border2: #363645;
+        --text: #f0ede8;
+        --muted: #888898;
+        --dim: #555565;
+        --green: #00e676;
+        --green-d: #00c853;
+        --green-bg: rgba(0, 230, 118, 0.08);
+        --amber: #ffc107;
+        --amber-d: #ff8f00;
+        --amber-bg: rgba(255, 193, 7, 0.08);
+        --red: #ff5252;
+        --red-d: #d50000;
+        --red-bg: rgba(255, 82, 82, 0.08);
+        --blue: #448aff;
+        --blue-d: #2962ff;
+        --blue-bg: rgba(68, 138, 255, 0.08);
+        --purple: #b388ff;
+        --purple-bg: rgba(179, 136, 255, 0.08);
+        --teal: #64ffda;
+        --teal-bg: rgba(100, 255, 218, 0.08);
+        --radius: 10px;
+        --radius-lg: 16px;
+      }
+      body {
+        font-family: "Syne", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 24px 16px 60px;
+      }
+      .mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      /* HEADER */
+      header {
+        max-width: 1100px;
+        margin: 0 auto 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--green);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .logo-text h1 {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+      .logo-text span {
+        font-size: 12px;
+        color: var(--muted);
+        display: block;
+        font-weight: 400;
+        margin-top: -2px;
+      }
+      .header-clock {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+      }
+      .header-time {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--green);
+        letter-spacing: -1px;
+      }
+      .header-date {
+        font-size: 12px;
+        color: var(--muted);
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      /* TABS */
+      .tabs {
+        display: flex;
+        gap: 4px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 4px;
+      }
+      .tab {
+        padding: 7px 18px;
+        border-radius: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        transition: 0.2s;
+      }
+      .tab.active {
+        background: var(--card2);
+        color: var(--text);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+      }
+      .tab:hover:not(.active) {
+        color: var(--text);
+      }
+
+      /* MAIN */
+      .main {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      /* QUICK ACTIONS BAR */
+      .quick-actions {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .qa-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--muted);
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .qa-btn:hover {
+        color: var(--text);
+        border-color: var(--border2);
+      }
+      .qa-btn.yemek {
+        border-color: rgba(100, 255, 218, 0.25);
+        color: var(--teal);
+        background: var(--teal-bg);
+      }
+      .qa-btn.yemek:hover {
+        background: rgba(100, 255, 218, 0.14);
+      }
+      .qa-btn.gider {
+        border-color: rgba(179, 136, 255, 0.25);
+        color: var(--purple);
+        background: var(--purple-bg);
+      }
+      .qa-btn.gider:hover {
+        background: rgba(179, 136, 255, 0.14);
+      }
+
+      /* ADD STAFF */
+      .add-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 28px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 16px;
+      }
+      .add-bar input {
+        flex: 1;
+        background: var(--card);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 11px 16px;
+        border-radius: var(--radius);
+        font-family: "Syne", sans-serif;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s;
+      }
+      .add-bar input:focus {
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px var(--green-bg);
+      }
+      .add-bar input::placeholder {
+        color: var(--dim);
+      }
+      .btn {
+        padding: 11px 20px;
+        border-radius: var(--radius);
+        border: none;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: 0.15s;
+        white-space: nowrap;
+      }
+      .btn:active {
+        transform: scale(0.97);
+      }
+      .btn-green {
+        background: var(--green);
+        color: #000;
+      }
+      .btn-green:hover {
+        background: var(--green-d);
+      }
+      .btn-ghost {
+        background: var(--card2);
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost:hover {
+        color: var(--text);
+      }
+
+      /* GRID */
+      .staff-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 20px;
+      }
+
+      /* DRAG */
+      .staff-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        transition:
+          box-shadow 0.2s,
+          opacity 0.2s,
+          border-color 0.2s;
+        cursor: default;
+        user-select: none;
+      }
+      .staff-card.dragging {
+        opacity: 0.4;
+        box-shadow: 0 0 0 2px var(--green);
+      }
+      .staff-card.drag-over {
+        border-color: var(--green);
+        box-shadow: 0 0 0 2px var(--green-bg);
+      }
+      .staff-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--green);
+        border-radius: 4px 0 0 4px;
+        transition: 0.3s;
+      }
+      .staff-card.on-break::before {
+        background: var(--red);
+      }
+      .staff-card.on-break {
+        border-color: rgba(255, 82, 82, 0.2);
+        background: rgba(255, 82, 82, 0.04);
+      }
+      .staff-card.paused::before {
+        background: var(--amber);
+      }
+      .staff-card.paused {
+        border-color: rgba(255, 193, 7, 0.2);
+        background: rgba(255, 193, 7, 0.04);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      }
+      .drag-handle {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 4px 4px 4px 0;
+        cursor: grab;
+        opacity: 0.3;
+        transition: opacity 0.2s;
+        flex-shrink: 0;
+        margin-top: 3px;
+        margin-right: 8px;
+      }
+      .drag-handle:hover {
+        opacity: 0.8;
+      }
+      .drag-handle span {
+        display: block;
+        width: 16px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 1px;
+      }
+      .drag-handle:active {
+        cursor: grabbing;
+      }
+      .staff-name-wrap {
+        flex: 1;
+      }
+      .staff-name {
+        font-size: 17px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+      .entry-time {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 3px;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .remove-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--dim);
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+        flex-shrink: 0;
+      }
+      .remove-btn:hover {
+        border-color: var(--red);
+        color: var(--red);
+        background: var(--red-bg);
+      }
+
+      /* STATS */
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 10px 12px;
+        text-align: center;
+      }
+      .stat-label {
+        font-size: 10px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 4px;
+      }
+      .stat-val {
+        font-size: 19px;
+        font-weight: 800;
+        font-family: "IBM Plex Mono", monospace;
+        letter-spacing: -1px;
+      }
+      .stat-val.green {
+        color: var(--green);
+      }
+      .stat-val.amber {
+        color: var(--amber);
+      }
+      .stat-val.blue {
+        color: var(--blue);
+      }
+
+      /* PAUSED BANNER */
+      .paused-banner {
+        background: var(--amber-bg);
+        border: 1px solid rgba(255, 193, 7, 0.2);
+        border-radius: var(--radius);
+        padding: 10px 14px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .paused-banner span {
+        font-size: 13px;
+        color: var(--amber);
+        font-weight: 600;
+      }
+
+      /* BREAK BANNER */
+      .break-banner {
+        background: var(--red-bg);
+        border: 1px solid rgba(255, 82, 82, 0.2);
+        border-radius: var(--radius);
+        padding: 10px 14px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .break-banner span {
+        font-size: 13px;
+        color: var(--red);
+        font-weight: 600;
+      }
+      .break-timer {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--red);
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      /* CONTROLS */
+      .controls {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .controls2 {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .prim-btn {
+        flex: 1;
+        padding: 9px 0;
+        border-radius: var(--radius);
+        border: 1px solid rgba(255, 193, 7, 0.2);
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 15px;
+        cursor: pointer;
+        background: var(--amber-bg);
+        color: var(--amber);
+        transition: 0.15s;
+      }
+      .prim-btn:hover {
+        background: rgba(255, 193, 7, 0.18);
+      }
+      .prim-btn:active {
+        transform: scale(0.96);
+      }
+      .prim2-btn {
+        flex: 1;
+        padding: 9px 0;
+        border-radius: var(--radius);
+        border: 1px solid rgba(255, 107, 0, 0.2);
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 15px;
+        cursor: pointer;
+        background: rgba(255, 107, 0, 0.08);
+        color: #ff6b00;
+        transition: 0.15s;
+      }
+      .prim2-btn:hover {
+        background: rgba(255, 107, 0, 0.16);
+      }
+      .prim2-btn:active {
+        transform: scale(0.96);
+      }
+      .mola-btn {
+        flex: 2;
+        padding: 9px 0;
+        border-radius: var(--radius);
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        cursor: pointer;
+        background: var(--blue-bg);
+        color: var(--blue);
+        border: 1px solid rgba(68, 138, 255, 0.2);
+        transition: 0.15s;
+      }
+      .mola-btn:hover {
+        background: rgba(68, 138, 255, 0.15);
+      }
+      .mola-btn.active {
+        background: var(--red-bg);
+        color: var(--red);
+        border-color: rgba(255, 82, 82, 0.25);
+      }
+      .mola-btn.active:hover {
+        background: rgba(255, 82, 82, 0.15);
+      }
+      .mola-btn:active {
+        transform: scale(0.96);
+      }
+      .pause-btn {
+        flex: 1;
+        padding: 9px 0;
+        border-radius: var(--radius);
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        cursor: pointer;
+        background: var(--amber-bg);
+        color: var(--amber);
+        border: 1px solid rgba(255, 193, 7, 0.2);
+        transition: 0.15s;
+      }
+      .pause-btn:hover {
+        background: rgba(255, 193, 7, 0.18);
+      }
+      .pause-btn.resume {
+        background: var(--green-bg);
+        color: var(--green);
+        border-color: rgba(0, 230, 118, 0.2);
+      }
+      .pause-btn.resume:hover {
+        background: rgba(0, 230, 118, 0.15);
+      }
+      .pause-btn:active {
+        transform: scale(0.96);
+      }
+
+      /* LOGS */
+      .logs-wrap {
+        border-top: 1px solid var(--border);
+        padding-top: 10px;
+        margin-top: 4px;
+      }
+      .logs-wrap summary {
+        font-size: 11px;
+        color: var(--dim);
+        cursor: pointer;
+        user-select: none;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+      .logs-wrap summary::-webkit-details-marker {
+        display: none;
+      }
+      .logs-wrap summary::before {
+        content: "▶";
+        font-size: 9px;
+        transition: 0.2s;
+      }
+      .logs-wrap[open] summary::before {
+        content: "▼";
+      }
+      .logs {
+        font-size: 12px;
+        color: var(--muted);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: 160px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 2px;
+      }
+      .logs::-webkit-scrollbar {
+        width: 3px;
+      }
+      .logs::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .logs::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 2px;
+      }
+      .log-item {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        padding: 2px 0;
+        flex-shrink: 0;
+      }
+      .log-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+      .log-dot.prim {
+        background: var(--amber);
+      }
+      .log-dot.break {
+        background: var(--blue);
+      }
+      .log-dot.pause {
+        background: var(--amber);
+      }
+      .log-text {
+        flex: 1;
+        line-height: 1.4;
+      }
+
+      /* EMPTY */
+      .empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--dim);
+      }
+      .empty-icon {
+        font-size: 48px;
+        margin-bottom: 12px;
+        opacity: 0.3;
+      }
+      .empty p {
+        font-size: 15px;
+      }
+
+      /* YEMEK KARTI SECTION */
+      .section-panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        margin-bottom: 28px;
+        overflow: hidden;
+      }
+      .section-panel-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .section-panel-header h2 {
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+      }
+      .section-panel-body {
+        padding: 20px;
+      }
+
+      .yemek-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .yemek-kart {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .yemek-kart-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .yemek-logo {
+        width: 38px;
+        height: 26px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+      }
+      .yemek-kart-name {
+        font-size: 12px;
+        font-weight: 700;
+        display: block; /* Flex yerine block deneyebilirsin */
+        overflow: hidden;
+        text-wrap: nowrap; /* Modern tarayıcılar için */
+      }
+      .yemek-kart-total {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 18px;
+        font-weight: 800;
+        margin-top: 2px;
+      }
+      .yemek-inp-row {
+        display: flex;
+        gap: 6px;
+      }
+      .yemek-amount-inp {
+        flex: 1;
+        background: var(--card);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 7px 10px;
+        border-radius: 8px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        outline: none;
+        text-align: right;
+        width: 0;
+      }
+      .yemek-amount-inp:focus {
+        border-color: var(--teal);
+      }
+      .yemek-add-btn {
+        padding: 7px 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(100, 255, 218, 0.2);
+        background: var(--teal-bg);
+        color: var(--teal);
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.15s;
+        white-space: nowrap;
+      }
+      .yemek-add-btn:hover {
+        background: rgba(100, 255, 218, 0.15);
+      }
+      .yemek-grand {
+        background: var(--teal-bg);
+        border: 1px solid rgba(100, 255, 218, 0.2);
+        border-radius: var(--radius);
+        padding: 14px 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .yemek-grand span {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--teal);
+      }
+      .yemek-grand .gval {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--teal);
+      }
+
+      /* GİDER SECTION */
+      .gider-input-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .gider-desc-inp {
+        flex: 2;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: var(--radius);
+        font-family: "Syne", sans-serif;
+        font-size: 13px;
+        outline: none;
+      }
+      .gider-desc-inp:focus {
+        border-color: var(--purple);
+      }
+      .gider-amt-inp {
+        flex: 1;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: var(--radius);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        outline: none;
+        text-align: right;
+        min-width: 0;
+      }
+      .gider-amt-inp:focus {
+        border-color: var(--purple);
+      }
+      .gider-add-btn {
+        padding: 10px 16px;
+        border-radius: var(--radius);
+        border: 1px solid rgba(179, 136, 255, 0.25);
+        background: var(--purple-bg);
+        color: var(--purple);
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        transition: 0.15s;
+        white-space: nowrap;
+      }
+      .gider-add-btn:hover {
+        background: rgba(179, 136, 255, 0.15);
+      }
+      .gider-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 14px;
+        max-height: 240px;
+        overflow-y: auto;
+      }
+      .gider-list::-webkit-scrollbar {
+        width: 4px;
+      }
+      .gider-list::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 2px;
+      }
+      .gider-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 10px 14px;
+      }
+      .gider-num {
+        font-size: 11px;
+        color: var(--dim);
+        font-family: "IBM Plex Mono", monospace;
+        min-width: 24px;
+      }
+      .gider-item-desc {
+        flex: 1;
+        font-size: 13px;
+      }
+      .gider-item-amt {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        color: var(--purple);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .gider-del {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--dim);
+        cursor: pointer;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+        flex-shrink: 0;
+      }
+      .gider-del:hover {
+        border-color: var(--red);
+        color: var(--red);
+        background: var(--red-bg);
+      }
+      .gider-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--purple-bg);
+        border: 1px solid rgba(179, 136, 255, 0.2);
+        border-radius: var(--radius);
+        padding: 14px 18px;
+      }
+      .gider-total-row span {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--purple);
+      }
+      .gider-total-row .gval {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--purple);
+      }
+
+      /* MODAL */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+        padding: 20px;
+      }
+      .modal {
+        background: var(--card);
+        border: 1px solid var(--border2);
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        width: 100%;
+        max-width: 420px;
+      }
+      .modal h3 {
+        font-size: 18px;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+      .modal p {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 20px;
+      }
+      .modal-input {
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 16px;
+        border-radius: var(--radius);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 16px;
+        text-align: center;
+        outline: none;
+        margin-bottom: 16px;
+      }
+      .modal-input:focus {
+        border-color: var(--green);
+      }
+      .modal-row {
+        display: flex;
+        gap: 10px;
+      }
+      .modal-row .btn {
+        flex: 1;
+        padding: 12px;
+      }
+      .hidden {
+        display: none;
+      }
+
+      /* REPORT TAB */
+      .report-filters {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 16px;
+        margin-bottom: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+        min-width: 160px;
+      }
+      .filter-group label {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+      }
+      .filter-group select,
+      .filter-group input[type="date"] {
+        background: var(--card);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 9px 12px;
+        border-radius: var(--radius);
+        font-family: "Syne", sans-serif;
+        font-size: 13px;
+        outline: none;
+        width: 100%;
+      }
+      .filter-group select:focus,
+      .filter-group input[type="date"]:focus {
+        border-color: var(--green);
+      }
+      .filter-group select option {
+        background: var(--card2);
+      }
+
+      .report-table-wrap {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        margin-bottom: 24px;
+      }
+      .report-table-wrap h3 {
+        padding: 16px 20px;
+        font-size: 14px;
+        font-weight: 700;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      thead th {
+        background: var(--surface);
+        padding: 10px 16px;
+        text-align: left;
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        font-weight: 600;
+      }
+      tbody tr {
+        border-top: 1px solid var(--border);
+      }
+      tbody tr:hover {
+        background: var(--card2);
+      }
+      tbody td {
+        padding: 11px 16px;
+        font-size: 13px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .badge-amber {
+        background: var(--amber-bg);
+        color: var(--amber);
+      }
+      .badge-blue {
+        background: var(--blue-bg);
+        color: var(--blue);
+      }
+      .badge-teal {
+        background: var(--teal-bg);
+        color: var(--teal);
+      }
+      .badge-purple {
+        background: var(--purple-bg);
+        color: var(--purple);
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .summary-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 16px;
+      }
+      .summary-card .sc-label {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        margin-bottom: 6px;
+      }
+      .summary-card .sc-val {
+        font-size: 24px;
+        font-weight: 800;
+        font-family: "IBM Plex Mono", monospace;
+        letter-spacing: -1px;
+      }
+
+      .report-section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        margin-bottom: 24px;
+      }
+      .report-section-header {
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .report-section-header h3 {
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .report-section-body {
+        padding: 16px 20px;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--surface);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 3px;
+      }
+
+      @media (max-width: 600px) {
+        .staff-grid {
+          grid-template-columns: 1fr;
+        }
+        .summary-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .add-bar {
+          flex-direction: column;
+        }
+        .yemek-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .gider-input-row {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+    <base target="_blank" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <div class="logo-icon">☕</div>
+        <div class="logo-text">
+          <h1>Cafe Pro-Track</h1>
+          <span>Personel Prim & Mola Sistemi</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="header-clock">
+          <div class="header-time" id="headerTime">00:00:00</div>
+          <div class="header-date" id="headerDate">--.--.----</div>
+        </div>
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab('staff')">
+            Personel
+          </button>
+          <button class="tab" onclick="switchTab('report')">Raporlar</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="main">
+      <!-- STAFF TAB -->
+      <div id="tab-staff">
+        <!-- YEMEK KARTI SECTION -->
+        <div class="section-panel">
+          <div class="section-panel-header">
+            <h2>🍽️ Yemek Kartı Ödemeleri</h2>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span
+                id="yemekHeaderTotal"
+                style="
+                  font-family: &quot;IBM Plex Mono&quot;, monospace;
+                  color: var(--teal);
+                  font-weight: 700;
+                  font-size: 15px;
+                "
+              ></span>
+              <button
+                onclick="clearYemek()"
+                style="
+                  padding: 6px 12px;
+                  border-radius: 8px;
+                  border: 1px solid rgba(255, 82, 82, 0.25);
+                  background: var(--red-bg);
+                  color: var(--red);
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-weight: 700;
+                  font-size: 11px;
+                  cursor: pointer;
+                "
+              >
+                🗑 Sıfırla
+              </button>
+            </div>
+          </div>
+          <div class="section-panel-body">
+            <div class="yemek-grid" id="yemekGrid"></div>
+            <div class="yemek-grand">
+              <span>Bugünkü Toplam</span>
+              <span class="gval" id="yemekGrandTotal">0 ₺</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GİDER SECTION -->
+        <div class="section-panel">
+          <div class="section-panel-header">
+            <h2>📒 Gider Defteri</h2>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span
+                id="giderHeaderTotal"
+                style="
+                  font-family: &quot;IBM Plex Mono&quot;, monospace;
+                  color: var(--purple);
+                  font-weight: 700;
+                  font-size: 15px;
+                "
+              ></span>
+              <button
+                onclick="clearGider()"
+                style="
+                  padding: 6px 12px;
+                  border-radius: 8px;
+                  border: 1px solid rgba(255, 82, 82, 0.25);
+                  background: var(--red-bg);
+                  color: var(--red);
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-weight: 700;
+                  font-size: 11px;
+                  cursor: pointer;
+                "
+              >
+                🗑 Sıfırla
+              </button>
+            </div>
+          </div>
+          <div class="section-panel-body">
+            <div class="gider-input-row">
+              <input
+                id="giderDesc"
+                class="gider-desc-inp"
+                type="text"
+                placeholder="Açıklama (ör: 15 ekmek)"
+                onkeydown="if (event.key === 'Enter') addGider();"
+              />
+              <input
+                id="giderAmt"
+                class="gider-amt-inp"
+                type="number"
+                placeholder="₺ Tutar"
+                min="0"
+                onkeydown="if (event.key === 'Enter') addGider();"
+              />
+              <button class="gider-add-btn" onclick="addGider()">+ Ekle</button>
+            </div>
+            <div class="gider-list" id="giderList"></div>
+            <div class="gider-total-row">
+              <span>Toplam Gider</span>
+              <span class="gval" id="giderTotal">0 ₺</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <div
+            style="
+              font-size: 12px;
+              color: var(--dim);
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            "
+          >
+            <span>💡</span> Kartları sürükleyerek yeniden sıralayabilirsiniz
+          </div>
+          <button
+            class="qa-btn"
+            onclick="manualDayEnd()"
+            style="
+              margin-left: auto;
+              border-color: rgba(255, 82, 82, 0.25);
+              color: var(--red);
+              background: var(--red-bg);
+            "
+          >
+            🔄 Manuel Gün Bitir
+          </button>
+        </div>
+
+        <div class="add-bar">
+          <input
+            id="staffName"
+            type="text"
+            placeholder="Personel adı soyadı girin..."
+            onkeydown="if (event.key === 'Enter') addStaff();"
+          />
+          <button class="btn btn-green" onclick="addStaff()">
+            + Personel Ekle
+          </button>
+        </div>
+        <div id="staffGrid" class="staff-grid"></div>
+      </div>
+
+      <!-- REPORT TAB -->
+      <div id="tab-report" class="hidden">
+        <div class="report-filters">
+          <div class="filter-group">
+            <label>Personel</label>
+            <select id="filterStaff" onchange="renderReport()">
+              <option value="">Tümü</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Başlangıç Tarihi</label>
+            <input type="date" id="filterStart" onchange="renderReport()" />
+          </div>
+          <div class="filter-group">
+            <label>Bitiş Tarihi</label>
+            <input type="date" id="filterEnd" onchange="renderReport()" />
+          </div>
+          <div class="filter-group">
+            <label>Tür</label>
+            <select id="filterType" onchange="renderReport()">
+              <option value="">Tümü</option>
+              <option value="prim">Prim</option>
+              <option value="break">Mola</option>
+              <option value="yemek">Yemek Kartı</option>
+              <option value="gider">Gider</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: auto">
+            <button class="btn btn-ghost" onclick="clearFilters()">
+              Sıfırla
+            </button>
+            <button
+              class="btn"
+              style="
+                background: var(--red-bg);
+                color: var(--red);
+                border: 1px solid rgba(255, 82, 82, 0.25);
+              "
+              onclick="backupAndClearAll()"
+            >
+              🗑 Yedekle & Sil
+            </button>
+          </div>
+        </div>
+
+        <div class="summary-grid" id="summaryCards"></div>
+
+        <div class="report-section" id="rpt-yemek-section">
+          <div class="report-section-header">
+            <h3>🍽️ Yemek Kartı Ödemeleri</h3>
+            <span
+              id="rpt-yemek-total"
+              style="
+                font-family: &quot;IBM Plex Mono&quot;, monospace;
+                color: var(--teal);
+                font-weight: 700;
+              "
+            ></span>
+          </div>
+          <div class="report-section-body" id="rpt-yemek-body"></div>
+        </div>
+
+        <div class="report-section" id="rpt-gider-section">
+          <div class="report-section-header">
+            <h3>📒 Gider Defteri</h3>
+            <span
+              id="rpt-gider-total"
+              style="
+                font-family: &quot;IBM Plex Mono&quot;, monospace;
+                color: var(--purple);
+                font-weight: 700;
+              "
+            ></span>
+          </div>
+          <div class="report-section-body" id="rpt-gider-body"></div>
+        </div>
+
+        <div class="report-table-wrap">
+          <h3>Personel Kayıtları</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Personel</th>
+                <th>Tür</th>
+                <th>Tarih</th>
+                <th>Saat</th>
+                <th>Detay</th>
+              </tr>
+            </thead>
+            <tbody id="reportBody"></tbody>
+          </table>
+        </div>
+
+        <!-- ARŞİV YÖNETİMİ -->
+        <div class="report-section" id="archivePanel">
+          <div class="report-section-header">
+            <h3>🗄️ Arşiv Yönetimi</h3>
+            <span
+              id="storageBar"
+              style="
+                font-family: &quot;IBM Plex Mono&quot;, monospace;
+                font-size: 12px;
+                color: var(--muted);
+              "
+            ></span>
+          </div>
+          <div class="report-section-body">
+            <!-- Storage kullanım göstergesi -->
+            <div style="margin-bottom: 20px">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 6px;
+                "
+              >
+                <span style="font-size: 12px; color: var(--muted)"
+                  >LocalStorage Kullanımı</span
+                >
+                <span
+                  id="storageText"
+                  style="
+                    font-size: 12px;
+                    font-family: &quot;IBM Plex Mono&quot;, monospace;
+                    color: var(--text);
+                  "
+                ></span>
+              </div>
+              <div
+                style="
+                  height: 8px;
+                  background: var(--surface);
+                  border-radius: 4px;
+                  overflow: hidden;
+                  border: 1px solid var(--border);
+                "
+              >
+                <div
+                  id="storageBarFill"
+                  style="
+                    height: 100%;
+                    border-radius: 4px;
+                    transition: 0.5s;
+                    background: var(--green);
+                  "
+                ></div>
+              </div>
+              <div
+                style="font-size: 11px; color: var(--dim); margin-top: 5px"
+                id="storageDaysLeft"
+              ></div>
+            </div>
+
+            <!-- Aylık arşiv listesi -->
+            <div style="margin-bottom: 16px">
+              <div
+                style="
+                  font-size: 12px;
+                  color: var(--muted);
+                  text-transform: uppercase;
+                  letter-spacing: 0.7px;
+                  margin-bottom: 10px;
+                "
+              >
+                Mevcut Snapshot'lar (Aylara Göre)
+              </div>
+              <div id="archiveMonthList"></div>
+            </div>
+
+            <!-- Yedek al / Yükle -->
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                padding-top: 16px;
+                border-top: 1px solid var(--border);
+              "
+            >
+              <button
+                class="btn btn-green"
+                onclick="exportAllJSON()"
+                style="display: flex; align-items: center; gap: 6px"
+              >
+                💾 Tüm Veriyi Yedekle
+              </button>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  padding: 11px 20px;
+                  border-radius: var(--radius);
+                  border: 1px solid var(--border);
+                  background: var(--card2);
+                  color: var(--muted);
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-weight: 600;
+                  font-size: 13px;
+                  cursor: pointer;
+                  transition: 0.15s;
+                "
+                onmouseover="this.style.color = 'var(--text)'"
+                onmouseout="this.style.color = 'var(--muted)'"
+              >
+                📂 Yedekten Yükle
+                <input
+                  type="file"
+                  accept=".json"
+                  onchange="importJSON(event)"
+                  style="display: none"
+                />
+              </label>
+            </div>
+            <div style="margin-top: 10px; font-size: 11px; color: var(--dim)">
+              💡 Aylık arşivleme önerilir — eski ayları silerek programı
+              hafifletebilirsiniz.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MASA MODAL -->
+    <div id="masaModal" class="modal-overlay hidden">
+      <div class="modal">
+        <h3>Masa Numarası</h3>
+        <p>Prim kaydedilecek masa numarasını girin</p>
+        <input
+          id="masaInput"
+          class="modal-input"
+          type="text"
+          placeholder="Ör: 7"
+          maxlength="10"
+          onkeydown="if (event.key === 'Enter') confirmPrim();"
+        />
+        <div class="modal-row">
+          <button class="btn btn-ghost" onclick="closeModal('masaModal')">
+            İptal
+          </button>
+          <button class="btn btn-green" onclick="confirmPrim()">Kaydet</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ============ DATA ============
+      let staffs = JSON.parse(localStorage.getItem("cpt_staffs") || "[]");
+      let yemekData = JSON.parse(
+        localStorage.getItem("cpt_yemek") || '{"entries":[]}',
+      );
+      let giderData = JSON.parse(
+        localStorage.getItem("cpt_gider") || '{"items":[]}',
+      );
+      let snapshots = JSON.parse(localStorage.getItem("cpt_snapshots") || "[]");
+      let staffOrder = JSON.parse(localStorage.getItem("cpt_order") || "[]");
+
+      // Eski key'den migration
+      (function migrate() {
+        const old = localStorage.getItem("cpt_data");
+        if (old && !staffs.length) {
+          try {
+            staffs = JSON.parse(old);
+            save();
+          } catch (e) {}
+        }
+      })();
+
+      let pendingPrim = null;
+      let dragSrcId = null;
+      let ticker = null;
+
+      const YEMEK_KARTLARI = [
+        {
+          id: "multinet",
+          name: "Multinet",
+          color: "#E63946",
+          bg: "rgba(230,57,70,.15)",
+          abbr: "MN",
+        },
+        {
+          id: "edenred",
+          name: "Edenred",
+          color: "#FF6B35",
+          bg: "rgba(255,107,53,.15)",
+          abbr: "ED",
+        },
+        {
+          id: "pluxee",
+          name: "Pluxee",
+          color: "#FFB300",
+          bg: "rgba(255,179,0,.15)",
+          abbr: "PX",
+        },
+        {
+          id: "setcard",
+          name: "Setcard",
+          color: "#9C27B0",
+          bg: "rgba(156,39,176,.15)",
+          abbr: "SC",
+        },
+        {
+          id: "metropol",
+          name: "MetropolCard",
+          color: "#00BCD4",
+          bg: "rgba(0,188,212,.15)",
+          abbr: "MC",
+        },
+      ];
+
+      function save() {
+        localStorage.setItem("cpt_staffs", JSON.stringify(staffs));
+      }
+      function saveYemek() {
+        localStorage.setItem("cpt_yemek", JSON.stringify(yemekData));
+      }
+      function saveGider() {
+        localStorage.setItem("cpt_gider", JSON.stringify(giderData));
+      }
+      function saveSnapshots() {
+        localStorage.setItem("cpt_snapshots", JSON.stringify(snapshots));
+      }
+      function saveOrder() {
+        localStorage.setItem("cpt_order", JSON.stringify(staffOrder));
+      }
+
+      function pad(n) {
+        return String(n).padStart(2, "0");
+      }
+      function fmtMs(ms) {
+        if (ms < 0) ms = 0;
+        const s = Math.floor(ms / 1000);
+        return (
+          pad(Math.floor(s / 3600)) +
+          ":" +
+          pad(Math.floor((s % 3600) / 60)) +
+          ":" +
+          pad(s % 60)
+        );
+      }
+      function todayISO() {
+        const d = new Date();
+        return (
+          d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate())
+        );
+      }
+      function nowObj() {
+        const d = new Date();
+        return {
+          ts: d.getTime(),
+          tarih: d.toLocaleDateString("tr-TR"),
+          tarihISO:
+            d.getFullYear() +
+            "-" +
+            pad(d.getMonth() + 1) +
+            "-" +
+            pad(d.getDate()),
+          saat: d.toLocaleTimeString("tr-TR"),
+        };
+      }
+
+      // ============ TEST FONKSİYONLARI (F12 Konsolundan Kullan) ============
+      let _testDate = null; // Manuel tarih ayarı için
+
+      // Saati ileri/geri al (saat, dakika, saniye)
+      function setTestTime(hours, minutes = 0, seconds = 0) {
+        const d = new Date();
+        d.setHours(hours, minutes, seconds, 0);
+        _testDate = d;
+        console.log(
+          `⏰ Test saati ayarlandı: ${d.toLocaleTimeString("tr-TR")}`,
+        );
+        return d;
+      }
+
+      // Günü değiştir (YYYY-AA-GG formatında)
+      function setTestDate(dateStr) {
+        const [y, m, d] = dateStr.split("-").map(Number);
+        const date = new Date(y, m - 1, d);
+        _testDate = date;
+        console.log(
+          `📅 Test tarihi ayarlandı: ${date.toLocaleDateString("tr-TR")}`,
+        );
+        return date;
+      }
+
+      // Test modunu kapat
+      function clearTestTime() {
+        _testDate = null;
+        console.log("✅ Test modu kapatıldı, gerçek zaman aktif");
+      }
+
+      // Test tarihini kullan (eğer ayarlanmışsa)
+      function getTestDate() {
+        return _testDate || new Date();
+      }
+
+      // Konsoldan kolay kullanım:
+      // setTestTime(23, 59, 50)  // 23:59:50
+      // setTestDate('2026-04-20') // Yarın
+      // testMidnight()            // Gece yarısı simülasyonu
+      // clearTestTime()           // Testi kapat
+      function activeBreakMs(s) {
+        if (!s.isAtBreak || !s.lastBreakStart) return 0;
+        return Date.now() - s.lastBreakStart;
+      }
+      function activeMesaiMs(s) {
+        if (!s.shiftStart || s.mesaiBaslamadi) return 0; // Mesai henüz başlamadı
+        if (s.isPaused) return s.pausedMesaiMs || 0;
+        const base = s.pausedMesaiMs || 0;
+        const elapsed = s.lastResumeTs
+          ? Date.now() - s.lastResumeTs
+          : Date.now() - s.shiftStart;
+        return base + elapsed;
+      }
+
+      // ============ CLOCK ============
+      function updateClock() {
+        const d = new Date();
+        document.getElementById("headerTime").textContent =
+          pad(d.getHours()) +
+          ":" +
+          pad(d.getMinutes()) +
+          ":" +
+          pad(d.getSeconds());
+        document.getElementById("headerDate").textContent =
+          pad(d.getDate()) +
+          "." +
+          pad(d.getMonth() + 1) +
+          "." +
+          d.getFullYear();
+      }
+
+      // ============ MANUAL DAY END ============
+      function manualDayEnd() {
+        if (
+          !confirm(
+            "⚠️ MANUEL GÜN BİTİR\n\nBu işlem:\n- Bugünün snapshot'ını alacak\n- Tüm personel sayaçlarını sıfırlayacak\n- Yeni güne başlayacak\n\nDevam edilsin mi?",
+          )
+        )
+          return;
+        const today = todayISO();
+        doMidnightSnapshot(today);
+        localStorage.setItem("cpt_lastCheck", todayISO());
+        alert(
+          "✅ Gün sonu işlemi tamamlandı!\nTüm veriler snapshot'a kaydedildi ve personeller sıfırlandı.",
+        );
+        render();
+        updateReportFilters();
+        renderArchivePanel();
+      }
+
+      // ============ MIDNIGHT SNAPSHOT ============
+      function checkMidnight() {
+        const lastCheck = localStorage.getItem("cpt_lastCheck") || "";
+        const today = todayISO();
+
+        // İlk çalıştırma veya yeni gün
+        if (!lastCheck) {
+          localStorage.setItem("cpt_lastCheck", today);
+          return;
+        }
+
+        if (lastCheck === today) return; // Aynı gün, bir şey yapma
+
+        // YENİ GÜN! Snapshot al ve sıfırla
+        if (lastCheck !== today) {
+          console.log("🌙 Yeni gün tespit edildi:", lastCheck, "→", today);
+          doMidnightSnapshot(lastCheck);
+        }
+        localStorage.setItem("cpt_lastCheck", today);
+      }
+
+      // TEST: Gece yarısı simülasyonu (F12 konsolundan çağır)
+      function testMidnight() {
+        console.log("🧪 Gece yarısı simülasyonu başlatılıyor...");
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().slice(0, 10);
+
+        // Dünün snapshot'ını almadan önceki durumu simüle et
+        localStorage.setItem("cpt_lastCheck", yesterdayStr);
+        console.log(`📅 Son kontrol tarihi: ${yesterdayStr} olarak ayarlandı`);
+
+        // Şimdi bugünün tarihine geç (simüle edilmiş)
+        const today = new Date();
+        const todayStr = today.toISOString().slice(0, 10);
+        console.log(`📅 Bugünün tarihi: ${todayStr}`);
+
+        // checkMidnight çağır
+        checkMidnight();
+
+        console.log("✅ Simülasyon tamamlandı!");
+        console.log("📊 Raporlar sekmesinden kontrol edebilirsiniz");
+
+        // Ekranı güncelle
+        render();
+        updateReportFilters();
+        renderArchivePanel();
+
+        return "Simülasyon tamamlandı";
+      }
+
+      function doMidnightSnapshot(dateISO) {
+        console.log("📸 Snapshot alınıyor:", dateISO);
+        const snap = {
+          date: dateISO,
+          dateFmt: new Date(dateISO).toLocaleDateString("tr-TR"),
+          staffs: staffs.map((s) => ({
+            id: s.id,
+            name: s.name,
+            primCount: s.primCount,
+            primHistory: [...s.primHistory],
+            totalBreakMs:
+              s.totalBreakMs +
+              (s.isAtBreak && s.lastBreakStart
+                ? Date.now() - s.lastBreakStart
+                : 0),
+            breakHistory: [...s.breakHistory],
+            totalMesaiMs: activeMesaiMs(s),
+            shiftDate: s.shiftDate,
+            mesaiBaslamadi: s.mesaiBaslamadi || false,
+          })),
+          yemek: yemekData.entries.filter((e) => e.tarihISO === dateISO),
+          gider: giderData.items.filter((g) => g.tarihISO === dateISO),
+          ts: Date.now(),
+        };
+        snapshots.push(snap);
+        saveSnapshots();
+
+        // Yemek ve gider kayıtlarını temizle - snapshot'a kaydedildi artık
+        yemekData.entries = yemekData.entries.filter(
+          (e) => e.tarihISO !== dateISO,
+        );
+        giderData.items = giderData.items.filter((g) => g.tarihISO !== dateISO);
+        saveYemek();
+        saveGider();
+
+        // yemekGrid'i sıfırla - yeni gün için kartlar yeniden oluşturulsun
+        const yGrid = document.getElementById("yemekGrid");
+        if (yGrid) delete yGrid.dataset.built;
+
+        // Personelleri sıfırla - yeni güne başlat (mesai duraklatılmış olarak)
+        const n = nowObj();
+        staffs = staffs.map((s) => ({
+          ...s,
+          shiftStart: null,
+          lastResumeTs: null,
+          shiftDate: n.tarih,
+          shiftDateISO: n.tarihISO,
+          primCount: 0,
+          primHistory: [],
+          totalBreakMs: 0,
+          isAtBreak: false,
+          lastBreakStart: null,
+          breakHistory: [],
+          isPaused: true,
+          pausedMesaiMs: 0,
+          pauseHistory: [],
+          mesaiBaslamadi: true,
+        }));
+        save();
+      }
+
+      // ============ STAFF ============
+      function addStaff() {
+        const inp = document.getElementById("staffName");
+        const name = inp.value.trim();
+        if (!name) return;
+        const n = nowObj();
+        const id = Date.now();
+        staffs.push({
+          id,
+          name,
+          shiftStart: null,
+          lastResumeTs: null, // Mesai henüz başlamadı
+          shiftDate: n.tarih,
+          shiftDateISO: n.tarihISO,
+          primCount: 0,
+          primHistory: [],
+          totalBreakMs: 0,
+          isAtBreak: false,
+          lastBreakStart: null,
+          breakHistory: [],
+          isPaused: true,
+          pausedMesaiMs: 0,
+          prepauseOrderIndex: null,
+          pauseHistory: [], // Başlangıçta duraklatılmış gibi
+          mesaiBaslamadi: true, // Yeni flag: mesai henüz başlamadı
+        });
+        staffOrder.push(id);
+        inp.value = "";
+        save();
+        saveOrder();
+        render();
+        updateReportFilters();
+      }
+
+      function removeStaff(id) {
+        if (!confirm("Bu personeli silmek istediğinizden emin misiniz?"))
+          return;
+        staffs = staffs.filter((x) => x.id !== id);
+        staffOrder = staffOrder.filter((x) => x !== id);
+        save();
+        saveOrder();
+        render();
+        updateReportFilters();
+      }
+
+      // ============ PRIM ============
+      function openPrimModal(id, amount) {
+        pendingPrim = { id, amount };
+        document.getElementById("masaInput").value = "";
+        document.getElementById("masaModal").classList.remove("hidden");
+        setTimeout(() => document.getElementById("masaInput").focus(), 100);
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.add("hidden");
+        if (id === "masaModal") pendingPrim = null;
+      }
+      function confirmPrim() {
+        if (!pendingPrim) return;
+        const masa = document.getElementById("masaInput").value.trim();
+        if (!masa) {
+          document.getElementById("masaInput").focus();
+          return;
+        }
+        const s = staffs.find((x) => x.id === pendingPrim.id);
+        if (!s) {
+          closeModal("masaModal");
+          return;
+        }
+        const n = nowObj();
+        s.primCount += pendingPrim.amount;
+        s.primHistory.push({
+          tarih: n.tarih,
+          tarihISO: n.tarihISO,
+          saat: n.saat,
+          masa,
+          adet: pendingPrim.amount,
+        });
+        closeModal("masaModal");
+        save();
+        render();
+      }
+      document
+        .getElementById("masaModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeModal("masaModal");
+        });
+
+      // ============ BREAK ============
+      function toggleBreak(id) {
+        const s = staffs.find((x) => x.id === id);
+        if (s.mesaiBaslamadi) {
+          alert("⚠️ Önce mesai başlatmalısınız!");
+          return;
+        }
+        if (s.isPaused) return;
+        const n = nowObj();
+        if (!s.isAtBreak) {
+          s.isAtBreak = true;
+          s.lastBreakStart = n.ts;
+        } else {
+          const diff = n.ts - s.lastBreakStart;
+          s.totalBreakMs += diff;
+          s.breakHistory.push({
+            tarih: n.tarih,
+            tarihISO: n.tarihISO,
+            baslangic: new Date(s.lastBreakStart).toLocaleTimeString("tr-TR"),
+            bitis: n.saat,
+            sure: fmtMs(diff),
+          });
+          s.isAtBreak = false;
+          s.lastBreakStart = null;
+        }
+        save();
+        render();
+      }
+
+      // ============ PAUSE ============
+      function togglePause(id) {
+        const s = staffs.find((x) => x.id === id);
+        const n = nowObj();
+
+        // İLK KEZ MESAİ BAŞLAT
+        if (s.mesaiBaslamadi) {
+          s.shiftStart = n.ts;
+          s.lastResumeTs = n.ts;
+          s.isPaused = false;
+          s.mesaiBaslamadi = false;
+          s.pauseHistory.push({
+            tip: "start",
+            tarih: n.tarih,
+            tarihISO: n.tarihISO,
+            saat: n.saat,
+          });
+          save();
+          render();
+          return;
+        }
+
+        if (!s.isPaused) {
+          // MESAİ DURDUR
+          const elapsed = s.lastResumeTs
+            ? n.ts - s.lastResumeTs
+            : n.ts - s.shiftStart;
+          s.pausedMesaiMs = (s.pausedMesaiMs || 0) + elapsed;
+          s.isPaused = true;
+          // Molaysa bitir
+          if (s.isAtBreak) {
+            const diff = n.ts - s.lastBreakStart;
+            s.totalBreakMs += diff;
+            s.breakHistory.push({
+              tarih: n.tarih,
+              tarihISO: n.tarihISO,
+              baslangic: new Date(s.lastBreakStart).toLocaleTimeString("tr-TR"),
+              bitis: n.saat,
+              sure: fmtMs(diff),
+            });
+            s.isAtBreak = false;
+            s.lastBreakStart = null;
+          }
+          s.pauseHistory.push({
+            tip: "pause",
+            tarih: n.tarih,
+            tarihISO: n.tarihISO,
+            saat: n.saat,
+          });
+          // Sırasını kaydet, en sona taşı
+          s.prepauseOrderIndex = staffOrder.indexOf(s.id);
+          staffOrder = staffOrder.filter((x) => x !== s.id);
+          staffOrder.push(s.id);
+          saveOrder();
+        } else {
+          // MESAİ DEVAM ET
+          s.isPaused = false;
+          s.lastResumeTs = n.ts;
+          s.pauseHistory.push({
+            tip: "resume",
+            tarih: n.tarih,
+            tarihISO: n.tarihISO,
+            saat: n.saat,
+          });
+          // Eski sırasına geri koy
+          if (s.prepauseOrderIndex !== null) {
+            staffOrder = staffOrder.filter((x) => x !== s.id);
+            const insertAt = Math.min(s.prepauseOrderIndex, staffOrder.length);
+            staffOrder.splice(insertAt, 0, s.id);
+            s.prepauseOrderIndex = null;
+          }
+          saveOrder();
+        }
+        save();
+        render();
+      }
+
+      // ============ ORDER HELPERS ============
+      function getOrderedStaffs() {
+        // staffOrder'da olmayan yeni eklenenleri sona ekle
+        staffs.forEach((s) => {
+          if (!staffOrder.includes(s.id)) staffOrder.push(s.id);
+        });
+        // staffOrder'da ama staffs'ta olmayanları temizle
+        staffOrder = staffOrder.filter((id) => staffs.find((s) => s.id === id));
+        return staffOrder
+          .map((id) => staffs.find((s) => s.id === id))
+          .filter(Boolean);
+      }
+
+      // ============ DRAG & DROP ============
+      function setupDrag() {
+        const cards = document.querySelectorAll(".staff-card[data-id]");
+        cards.forEach((card) => {
+          const handle = card.querySelector(".drag-handle");
+          if (!handle) return;
+          handle.addEventListener("mousedown", () => {
+            card.draggable = true;
+          });
+          handle.addEventListener("mouseup", () => {
+            card.draggable = false;
+          });
+          card.addEventListener("dragstart", (e) => {
+            if (!card.draggable) return;
+            dragSrcId = parseInt(card.dataset.id);
+            setTimeout(() => card.classList.add("dragging"), 0);
+            e.dataTransfer.effectAllowed = "move";
+          });
+          card.addEventListener("dragend", () => {
+            card.draggable = false;
+            card.classList.remove("dragging");
+            document
+              .querySelectorAll(".staff-card")
+              .forEach((c) => c.classList.remove("drag-over"));
+          });
+          card.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+            if (parseInt(card.dataset.id) !== dragSrcId)
+              card.classList.add("drag-over");
+          });
+          card.addEventListener("dragleave", () =>
+            card.classList.remove("drag-over"),
+          );
+          card.addEventListener("drop", (e) => {
+            e.preventDefault();
+            card.classList.remove("drag-over");
+            const targetId = parseInt(card.dataset.id);
+            if (targetId === dragSrcId) return;
+            const srcIdx = staffOrder.indexOf(dragSrcId);
+            const tgtIdx = staffOrder.indexOf(targetId);
+            if (srcIdx === -1 || tgtIdx === -1) return;
+            staffOrder.splice(srcIdx, 1);
+            staffOrder.splice(tgtIdx, 0, dragSrcId);
+            saveOrder();
+            render();
+          });
+        });
+      }
+
+      // ============ RENDER ============
+      function render() {
+        const grid = document.getElementById("staffGrid");
+        if (!grid) return;
+        const ordered = getOrderedStaffs();
+        if (!ordered.length) {
+          grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👥</div><p>Henüz personel eklenmedi.<br>Yukarıdan ilk personeli ekleyin.</p></div>`;
+          return;
+        }
+
+        // Scroll & details pozisyonlarını kaydet
+        const scrollPos = {};
+        const openDetails = {};
+        document.querySelectorAll(".logs[data-logid]").forEach((el) => {
+          scrollPos[el.dataset.logid] = el.scrollTop;
+        });
+        document.querySelectorAll(".logs-wrap[data-logid]").forEach((el) => {
+          openDetails[el.dataset.logid] = el.open;
+        });
+
+        grid.innerHTML = ordered
+          .map((s) => {
+            const mesaiMs = activeMesaiMs(s);
+            const abMs = activeBreakMs(s);
+            const logs = [
+              ...s.primHistory.map((p) => ({
+                type: "prim",
+                txt: `Masa ${p.masa} +${p.adet} prim · ${p.saat}`,
+              })),
+              ...s.breakHistory.map((b) => ({
+                type: "break",
+                txt: `Mola ${b.baslangic}–${b.bitis} (${b.sure})`,
+              })),
+            ];
+
+            // Eski veri uyumluluğu
+            if (s.mesaiBaslamadi === undefined) s.mesaiBaslamadi = false;
+
+            let statusClass = "";
+            if (s.isAtBreak) statusClass = "on-break";
+            else if (s.isPaused) statusClass = "paused";
+
+            const wasOpen = openDetails[s.id] !== false;
+
+            return `
+<div class="staff-card ${statusClass}" data-id="${s.id}">
+  <div class="card-header">
+    <div class="drag-handle" title="Sürükleyerek taşı"><span></span><span></span><span></span></div>
+    <div class="staff-name-wrap">
+      <div class="staff-name">${esc(s.name)}</div>
+      <div class="entry-time">${s.mesaiBaslamadi ? "Mesai henüz başlamadı" : "Giriş: " + new Date(s.shiftStart).toLocaleTimeString("tr-TR") + " · " + s.shiftDate}</div>
+    </div>
+    <button class="remove-btn" onclick="removeStaff(${s.id})" title="Personeli kaldır">✕</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Prim</div><div class="stat-val amber">${s.primCount}</div></div>
+    <div class="stat"><div class="stat-label">Mola</div><div class="stat-val blue">${fmtMs(s.totalBreakMs + abMs)}</div></div>
+    <div class="stat"><div class="stat-label">Mesai</div><div class="stat-val green">${fmtMs(mesaiMs)}</div></div>
+  </div>
+  ${
+    s.mesaiBaslamadi
+      ? `<div class="paused-banner" style="background:rgba(100,255,218,.08);border-color:rgba(100,255,218,.2)"><span style="color:var(--teal)">⏳ MESAİ BAŞLAMADI</span><span style="font-size:13px;color:var(--teal);font-family:'IBM Plex Mono',monospace">00:00:00</span></div>`
+      : s.isPaused
+        ? `<div class="paused-banner"><span>⏸ MESAİ DURDURULDU</span><span style="font-size:13px;color:var(--amber);font-family:'IBM Plex Mono',monospace">${fmtMs(mesaiMs)}</span></div>`
+        : ""
+  }
+  ${s.isAtBreak && !s.isPaused ? `<div class="break-banner"><span>⚠ MOLADA</span><span class="break-timer">${fmtMs(abMs)}</span></div>` : ""}
+  <div class="controls">
+    <button class="prim-btn" onclick="openPrimModal(${s.id},1)">+1</button>
+    <button class="prim2-btn" onclick="openPrimModal(${s.id},2)">+2</button>
+    <button class="mola-btn ${s.isAtBreak ? "active" : ""}" onclick="toggleBreak(${s.id})" ${s.isPaused ? 'disabled style="opacity:.4;cursor:not-allowed"' : ""}>${s.isAtBreak ? "MOLAYI BİTİR" : "MOLAYA ÇIK"}</button>
+  </div>
+  <div class="controls2">
+    ${
+      s.mesaiBaslamadi
+        ? `<button class="pause-btn resume" onclick="togglePause(${s.id})">▶ MESAİ BAŞLAT</button>`
+        : `<button class="pause-btn ${s.isPaused ? "resume" : ""}" onclick="togglePause(${s.id})">${s.isPaused ? "▶ MESAİ DEVAM ET" : "⏸ MESAİ DURDUR"}</button>`
+    }
+  </div>
+  ${logs.length ? `<details class="logs-wrap" data-logid="${s.id}" ${wasOpen ? "open" : ""}><summary>${logs.length} kayıt</summary><div class="logs" data-logid="${s.id}">${logs.map((l) => `<div class="log-item"><span class="log-dot ${l.type}"></span><span class="log-text">${l.txt}</span></div>`).join("")}</div></details>` : ""}
+</div>`;
+          })
+          .join("");
+
+        setupDrag();
+
+        // Scroll pozisyonlarını geri yükle - ve en alta scroll yap (yeni log gelince)
+        document.querySelectorAll(".logs[data-logid]").forEach((el) => {
+          const id = el.dataset.logid;
+          if (scrollPos[id] !== undefined) {
+            // Kullanıcı yukarı kaydırdıysa koru, yoksa en alta git
+            el.scrollTop = scrollPos[id];
+          } else {
+            el.scrollTop = el.scrollHeight;
+          }
+        });
+
+        renderYemek();
+        renderGider();
+      }
+
+      function esc(str) {
+        return str.replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+
+      // ============ YEMEK ============
+      function renderYemek() {
+        const grid = document.getElementById("yemekGrid");
+        if (!grid) return;
+        const today = todayISO();
+        const todayEntries = yemekData.entries.filter(
+          (e) => e.tarihISO === today,
+        );
+        const grandTotal = todayEntries.reduce((a, e) => a + e.tutar, 0);
+
+        // İlk yüklemede kartları oluştur, sonraki çağrılarda sadece toplamları güncelle
+        if (!grid.dataset.built) {
+          grid.innerHTML = YEMEK_KARTLARI.map(
+            (k) => `
+<div class="yemek-kart">
+  <div class="yemek-kart-top">
+    <div class="yemek-logo" style="background:${k.bg};color:${k.color}">${k.abbr}</div>
+    <div>
+      <div class="yemek-kart-name" style="color:${k.color}">${k.name}</div>
+      <div class="yemek-kart-total" id="ytotal-${k.id}" style="color:${k.color}">—</div>
+    </div>
+  </div>
+  <div class="yemek-inp-row">
+    <input class="yemek-amount-inp" id="yinp-${k.id}" type="number" placeholder="₺" min="0" style="border-color:${k.color}44" onkeydown="if(event.key==='Enter')addYemek('${k.id}')"/>
+    <button class="yemek-add-btn" style="border-color:${k.color}44;color:${k.color};background:${k.bg}" onclick="addYemek('${k.id}')">+ Ekle</button>
+  </div>
+</div>`,
+          ).join("");
+          grid.dataset.built = "1";
+        }
+
+        // Her zaman sadece toplam değerleri güncelle (input'lara dokunma)
+        YEMEK_KARTLARI.forEach((k) => {
+          const kTotal = todayEntries
+            .filter((e) => e.kartId === k.id)
+            .reduce((a, e) => a + e.tutar, 0);
+          const el = document.getElementById("ytotal-" + k.id);
+          if (el)
+            el.textContent =
+              kTotal > 0 ? kTotal.toLocaleString("tr-TR") + " ₺" : "—";
+        });
+
+        document.getElementById("yemekGrandTotal").textContent =
+          grandTotal.toLocaleString("tr-TR") + " ₺";
+        document.getElementById("yemekHeaderTotal").textContent =
+          grandTotal > 0
+            ? grandTotal.toLocaleString("tr-TR") + " ₺ toplam"
+            : "";
+      }
+
+      function addYemek(kartId) {
+        const inp = document.getElementById("yinp-" + kartId);
+        const val = parseFloat(inp.value);
+        if (!val || val <= 0) {
+          inp.focus();
+          return;
+        }
+        const n = nowObj();
+        yemekData.entries.push({
+          kartId,
+          tutar: val,
+          tarih: n.tarih,
+          tarihISO: n.tarihISO,
+          saat: n.saat,
+        });
+        inp.value = "";
+        saveYemek();
+        renderYemek();
+      }
+
+      function clearYemek() {
+        if (
+          !confirm(
+            "⚠️ YEMEK KARTI SİFİRLA\n\nBugünün tüm yemek kartı kayıtları silinecek!\n\nDevam edilsin mi?",
+          )
+        )
+          return;
+        const today = todayISO();
+        yemekData.entries = yemekData.entries.filter(
+          (e) => e.tarihISO !== today,
+        );
+        saveYemek();
+        renderYemek();
+        alert("✅ Bugünkü yemek kartı kayıtları temizlendi.");
+      }
+
+      // ============ GİDER ============
+      function renderGider() {
+        const list = document.getElementById("giderList");
+        if (!list) return;
+        const today = todayISO();
+        const todayItems = giderData.items.filter((g) => g.tarihISO === today);
+
+        if (!todayItems.length) {
+          list.innerHTML = `<div style="text-align:center;padding:16px;color:var(--dim);font-size:13px">Bugün henüz gider eklenmedi.</div>`;
+        } else {
+          list.innerHTML = todayItems
+            .map(
+              (g, i) => `
+<div class="gider-item">
+  <span class="gider-num">${i + 1}.</span>
+  <span class="gider-item-desc">${esc(g.desc)}</span>
+  <span class="gider-item-amt">${g.tutar.toLocaleString("tr-TR")} ₺</span>
+  <button class="gider-del" onclick="deleteGider('${g.id}')">✕</button>
+</div>`,
+            )
+            .join("");
+        }
+
+        const total = todayItems.reduce((a, g) => a + g.tutar, 0);
+        document.getElementById("giderTotal").textContent =
+          total.toLocaleString("tr-TR") + " ₺";
+        document.getElementById("giderHeaderTotal").textContent =
+          total > 0 ? total.toLocaleString("tr-TR") + " ₺ toplam" : "";
+      }
+
+      function addGider() {
+        const desc = document.getElementById("giderDesc").value.trim();
+        const amt = parseFloat(document.getElementById("giderAmt").value);
+        if (!desc || !amt || amt <= 0) return;
+        const n = nowObj();
+        giderData.items.push({
+          id: "g" + Date.now(),
+          desc,
+          tutar: amt,
+          tarih: n.tarih,
+          tarihISO: n.tarihISO,
+          saat: n.saat,
+        });
+        document.getElementById("giderDesc").value = "";
+        document.getElementById("giderAmt").value = "";
+        document.getElementById("giderDesc").focus();
+        saveGider();
+        renderGider();
+      }
+
+      function deleteGider(id) {
+        giderData.items = giderData.items.filter((g) => g.id !== id);
+        saveGider();
+        renderGider();
+      }
+
+      function clearGider() {
+        if (
+          !confirm(
+            "⚠️ GİDER DEFTERİ SİFİRLA\n\nBugünün tüm gider kayıtları silinecek!\n\nDevam edilsin mi?",
+          )
+        )
+          return;
+        const today = todayISO();
+        giderData.items = giderData.items.filter((g) => g.tarihISO !== today);
+        saveGider();
+        renderGider();
+        alert("✅ Bugünkü gider kayıtları temizlendi.");
+      }
+
+      // ============ TABS ============
+      function switchTab(tab) {
+        document
+          .getElementById("tab-staff")
+          .classList.toggle("hidden", tab !== "staff");
+        document
+          .getElementById("tab-report")
+          .classList.toggle("hidden", tab !== "report");
+        document
+          .querySelectorAll(".tab")
+          .forEach((t, i) =>
+            t.classList.toggle(
+              "active",
+              ["staff", "report"].indexOf(tab) === i,
+            ),
+          );
+        if (tab === "report") {
+          updateReportFilters();
+          // Raporlar açıldığında otomatik olarak bugünü göster
+          const filterStart = document.getElementById("filterStart");
+          const filterEnd = document.getElementById("filterEnd");
+          if (!filterStart.value && !filterEnd.value) {
+            const today = todayISO();
+            filterStart.value = today;
+            filterEnd.value = today;
+          }
+          renderReport();
+          renderArchivePanel();
+        }
+      }
+
+      // ============ REPORT ============
+      function updateReportFilters() {
+        const sel = document.getElementById("filterStaff");
+        const cur = sel.value;
+        // Hem aktif hem snapshot'taki personeller
+        const allNames = {};
+        staffs.forEach((s) => {
+          allNames[s.id] = { id: s.id, name: s.name };
+        });
+        snapshots.forEach((snap) => {
+          snap.staffs.forEach((s) => {
+            if (!allNames[s.id]) allNames[s.id] = { id: s.id, name: s.name };
+          });
+        });
+        sel.innerHTML =
+          '<option value="">Tümü</option>' +
+          Object.values(allNames)
+            .map(
+              (s) =>
+                `<option value="${s.id}" ${String(s.id) === cur ? "selected" : ""}>${esc(s.name)}</option>`,
+            )
+            .join("");
+      }
+
+      function clearFilters() {
+        document.getElementById("filterStaff").value = "";
+        document.getElementById("filterStart").value = "";
+        document.getElementById("filterEnd").value = "";
+        document.getElementById("filterType").value = "";
+        renderReport();
+      }
+
+      function renderReport() {
+        const fStaff = document.getElementById("filterStaff").value;
+        const fStart = document.getElementById("filterStart").value;
+        const fEnd = document.getElementById("filterEnd").value;
+        const fType = document.getElementById("filterType").value;
+
+        // ========== VERİ TOPLAMA ==========
+        let rows = [];
+
+        // Aktif personel kayıtları (bugünkü)
+        function addStaffRows(sList, fromSnapshot = false) {
+          sList.forEach((s) => {
+            // Eski veri uyumluluğu: mesaiBaslamadi undefined ise false kabul et (zaten başlamış)
+            if (s.mesaiBaslamadi === undefined) s.mesaiBaslamadi = false;
+            if (fStaff && String(s.id) !== fStaff) return;
+
+            // PRİM kayıtları
+            if (!fType || fType === "prim") {
+              (s.primHistory || []).forEach((p) => {
+                if (fStart && p.tarihISO < fStart) return;
+                if (fEnd && p.tarihISO > fEnd) return;
+                rows.push({
+                  staffName: s.name,
+                  type: "prim",
+                  tarih: p.tarih,
+                  tarihISO: p.tarihISO,
+                  saat: p.saat,
+                  detail: `Masa ${p.masa} · +${p.adet} prim`,
+                });
+              });
+            }
+
+            // MOLA kayıtları
+            if (!fType || fType === "break") {
+              (s.breakHistory || []).forEach((b) => {
+                if (fStart && b.tarihISO < fStart) return;
+                if (fEnd && b.tarihISO > fEnd) return;
+                rows.push({
+                  staffName: s.name,
+                  type: "break",
+                  tarih: b.tarih,
+                  tarihISO: b.tarihISO,
+                  saat: b.baslangic,
+                  detail: `${b.baslangic}–${b.bitis} · ${b.sure}`,
+                });
+              });
+            }
+          });
+        }
+
+        // Aktif personellerden ekle (sadece bugünkü veriler)
+        addStaffRows(staffs, false);
+
+        // Snapshot'lardan ekle (geçmiş günler)
+        snapshots.forEach((snap) => {
+          if (fStart && snap.date < fStart) return;
+          if (fEnd && snap.date > fEnd) return;
+          addStaffRows(snap.staffs, true);
+        });
+
+        // Tarihe göre sırala (en yeni üstte)
+        rows.sort((a, b) =>
+          (b.tarihISO + b.saat).localeCompare(a.tarihISO + a.saat),
+        );
+
+        // ========== ÖZET HESAPLAMALAR ==========
+        let totalPrim = 0;
+
+        // Aktif personellerden özet (bugünkü veriler)
+        staffs.forEach((s) => {
+          if (fStaff && String(s.id) !== fStaff) return;
+
+          const pr = (s.primHistory || []).filter(
+            (p) =>
+              (!fStart || p.tarihISO >= fStart) &&
+              (!fEnd || p.tarihISO <= fEnd),
+          );
+
+          if (!fType || fType === "prim")
+            totalPrim += pr.reduce((a, p) => a + p.adet, 0);
+        });
+
+        // Snapshot'lardan özet (geçmiş günler)
+        snapshots.forEach((snap) => {
+          if (fStart && snap.date < fStart) return;
+          if (fEnd && snap.date > fEnd) return;
+
+          snap.staffs.forEach((s) => {
+            if (fStaff && String(s.id) !== fStaff) return;
+            if (!fType || fType === "prim") totalPrim += s.primCount || 0;
+          });
+        });
+
+        // YEMEK & GİDER - Sadece ilgili tür seçiliyse hesapla
+        let totalYemek = 0,
+          totalGider = 0;
+        let filtYemek = [],
+          filtGider = [];
+
+        if (!fType || fType === "yemek") {
+          // BUGÜNKÜ veriler (aktif) + SNAPSHOT verileri (geçmiş)
+          const todayEntries = yemekData.entries; // Bugün henüz snapshot alınmadıysa burada
+          const snapEntries = snapshots.flatMap((sn) => {
+            if (fStart && sn.date < fStart) return [];
+            if (fEnd && sn.date > fEnd) return [];
+            return sn.yemek || [];
+          });
+          const yEntries = [...todayEntries, ...snapEntries];
+          filtYemek = yEntries.filter(
+            (e) =>
+              (!fStart || e.tarihISO >= fStart) &&
+              (!fEnd || e.tarihISO <= fEnd),
+          );
+          totalYemek = filtYemek.reduce((a, e) => a + e.tutar, 0);
+        }
+
+        if (!fType || fType === "gider") {
+          // BUGÜNKÜ veriler (aktif) + SNAPSHOT verileri (geçmiş)
+          const todayItems = giderData.items; // Bugün henüz snapshot alınmadıysa burada
+          const snapItems = snapshots.flatMap((sn) => {
+            if (fStart && sn.date < fStart) return [];
+            if (fEnd && sn.date > fEnd) return [];
+            return sn.gider || [];
+          });
+          const gItems = [...todayItems, ...snapItems];
+          filtGider = gItems.filter(
+            (g) =>
+              (!fStart || g.tarihISO >= fStart) &&
+              (!fEnd || g.tarihISO <= fEnd),
+          );
+          totalGider = filtGider.reduce((a, g) => a + g.tutar, 0);
+        }
+
+        // ========== ÖZET KARTLARI (Dinamik) ==========
+        const summaryCards = document.getElementById("summaryCards");
+
+        let summaryHTML = "";
+        if (!fType || fType === "prim") {
+          summaryHTML += `<div class="summary-card"><div class="sc-label">Toplam Prim</div><div class="sc-val" style="color:var(--amber)">${totalPrim}</div></div>`;
+        }
+        if (!fType || fType === "yemek") {
+          summaryHTML += `<div class="summary-card"><div class="sc-label">Yemek Kartı</div><div class="sc-val mono" style="color:var(--teal);font-size:16px">${totalYemek.toLocaleString("tr-TR")} ₺</div></div>`;
+        }
+        if (!fType || fType === "gider") {
+          summaryHTML += `<div class="summary-card"><div class="sc-label">Toplam Gider</div><div class="sc-val mono" style="color:var(--purple);font-size:16px">${totalGider.toLocaleString("tr-TR")} ₺</div></div>`;
+        }
+        summaryHTML += `<div class="summary-card"><div class="sc-label">Kayıt Sayısı</div><div class="sc-val">${rows.length}</div></div>`;
+        summaryCards.innerHTML = summaryHTML;
+
+        // ========== YEMEK RAPORU (Göster/Gizle) ==========
+        const yemekSection = document.getElementById("rpt-yemek-section");
+        if (fType && fType !== "yemek") {
+          yemekSection.style.display = "none";
+        } else {
+          yemekSection.style.display = "";
+          document.getElementById("rpt-yemek-total").textContent =
+            totalYemek.toLocaleString("tr-TR") + " ₺ toplam";
+          const yemekBody = document.getElementById("rpt-yemek-body");
+          if (!filtYemek.length) {
+            yemekBody.innerHTML = `<p style="color:var(--dim);font-size:13px;text-align:center;padding:12px 0">Bu aralıkta yemek kartı kaydı yok.</p>`;
+          } else {
+            // Kartlara göre grupla
+            const byKart = {};
+            YEMEK_KARTLARI.forEach((k) => {
+              byKart[k.id] = { ...k, total: 0, items: [] };
+            });
+            filtYemek.forEach((e) => {
+              if (byKart[e.kartId]) {
+                byKart[e.kartId].total += e.tutar;
+                byKart[e.kartId].items.push(e);
+              }
+            });
+
+            // Her kartın içinde saate göre sırala (en yeni üstte)
+            YEMEK_KARTLARI.forEach((k) => {
+              byKart[k.id].items.sort((a, b) =>
+                (b.tarihISO + b.saat).localeCompare(a.tarihISO + a.saat),
+              );
+            });
+
+            let html = "";
+            let kartSira = 1;
+
+            YEMEK_KARTLARI.forEach((k) => {
+              const data = byKart[k.id];
+              if (data.total === 0) return; // Boş kartları atla
+
+              html += `
+<div style="margin-bottom:20px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+  <div style="background:var(--surface);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="background:${k.bg};color:${k.color};padding:4px 10px;border-radius:6px;font-size:12px;font-weight:800;font-family:'IBM Plex Mono',monospace">${kartSira}</span>
+      <span style="font-size:14px;font-weight:700;color:${k.color}">${k.name}</span>
+    </div>
+    <span style="font-size:18px;font-weight:800;font-family:'IBM Plex Mono',monospace;color:${k.color}">${data.total.toLocaleString("tr-TR")} ₺</span>
+  </div>
+  <table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr style="background:var(--card)">
+        <th style="text-align:left;padding:8px 16px;font-size:11px;color:var(--muted);text-transform:uppercase;width:50px">#</th>
+        <th style="text-align:left;padding:8px 16px;font-size:11px;color:var(--muted);text-transform:uppercase">Tarih</th>
+        <th style="text-align:left;padding:8px 16px;font-size:11px;color:var(--muted);text-transform:uppercase">Saat</th>
+        <th style="text-align:right;padding:8px 16px;font-size:11px;color:var(--muted);text-transform:uppercase">Tutar</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+              data.items.forEach((item, idx) => {
+                html += `
+      <tr style="border-top:1px solid var(--border)">
+        <td style="padding:8px 16px;font-size:12px;color:var(--dim);font-family:'IBM Plex Mono',monospace">${idx + 1}</td>
+        <td style="padding:8px 16px;font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace">${item.tarih}</td>
+        <td style="padding:8px 16px;font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace">${item.saat}</td>
+        <td style="padding:8px 16px;font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-align:right;color:${k.color}">${item.tutar.toLocaleString("tr-TR")} ₺</td>
+      </tr>`;
+              });
+
+              html += `
+    </tbody>
+  </table>
+</div>`;
+              kartSira++;
+            });
+
+            yemekBody.innerHTML =
+              html ||
+              `<p style="color:var(--dim);font-size:13px;text-align:center;padding:12px 0">Bu aralıkta yemek kartı kaydı yok.</p>`;
+          }
+        }
+
+        // ========== GİDER RAPORU (Göster/Gizle) ==========
+        const giderSection = document.getElementById("rpt-gider-section");
+        if (fType && fType !== "gider") {
+          giderSection.style.display = "none";
+        } else {
+          giderSection.style.display = "";
+          document.getElementById("rpt-gider-total").textContent =
+            totalGider.toLocaleString("tr-TR") + " ₺ toplam";
+          const giderBody = document.getElementById("rpt-gider-body");
+          if (!filtGider.length) {
+            giderBody.innerHTML = `<p style="color:var(--dim);font-size:13px;text-align:center;padding:12px 0">Bu aralıkta gider kaydı yok.</p>`;
+          } else {
+            giderBody.innerHTML =
+              `<table style="width:100%;border-collapse:collapse">
+        <thead><tr>
+          <th style="text-align:left;padding:8px 12px;font-size:11px;color:var(--muted);text-transform:uppercase;background:var(--surface)">#</th>
+          <th style="text-align:left;padding:8px 12px;font-size:11px;color:var(--muted);text-transform:uppercase;background:var(--surface)">Açıklama</th>
+          <th style="text-align:left;padding:8px 12px;font-size:11px;color:var(--muted);text-transform:uppercase;background:var(--surface)">Tarih</th>
+          <th style="text-align:right;padding:8px 12px;font-size:11px;color:var(--muted);text-transform:uppercase;background:var(--surface)">Tutar</th>
+        </tr></thead>
+        <tbody>` +
+              filtGider
+                .map(
+                  (g, i) => `
+          <tr style="border-top:1px solid var(--border)">
+            <td style="padding:9px 12px;font-size:12px;color:var(--dim);font-family:'IBM Plex Mono',monospace">${i + 1}</td>
+            <td style="padding:9px 12px;font-size:13px">${esc(g.desc)}</td>
+            <td style="padding:9px 12px;font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace">${g.tarih} ${g.saat}</td>
+            <td style="padding:9px 12px;font-size:13px;font-weight:700;color:var(--purple);font-family:'IBM Plex Mono',monospace;text-align:right">${g.tutar.toLocaleString("tr-TR")} ₺</td>
+          </tr>`,
+                )
+                .join("") +
+              `</tbody></table>`;
+          }
+        }
+
+        // ========== PERSONEL TABLOSU ==========
+        const tbody = document.getElementById("reportBody");
+        if (!rows.length) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--dim)">Bu filtrelere uygun kayıt bulunamadı.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = rows
+          .map(
+            (r) => `
+    <tr>
+      <td style="font-weight:700">${esc(r.staffName)}</td>
+      <td><span class="badge ${r.type === "prim" ? "badge-amber" : "badge-blue"}">${r.type === "prim" ? "PRM" : "MOLA"}</span></td>
+      <td class="mono" style="font-size:12px">${r.tarih}</td>
+      <td class="mono" style="font-size:12px">${r.saat}</td>
+      <td style="color:var(--muted)">${r.detail}</td>
+    </tr>`,
+          )
+          .join("");
+      }
+
+      // ========== YEDEKLE VE TEMİZLE ==========
+      function backupAndClearAll() {
+        if (
+          !confirm(
+            "⚠️ TÜM VERİYİ YEDEKLE & SİL\n\nBu işlem:\n1. Tüm verileri JSON olarak indirecek\n2. Tüm kayıtları silecek\n3. Programı ilk günkü haline getirecek\n\nDevam edilsin mi?",
+          )
+        )
+          return;
+
+        // 1. YEDEKLE
+        const backupData = {
+          exportDate: new Date().toISOString(),
+          version: "full-backup-before-clear",
+          staffs: JSON.parse(JSON.stringify(staffs)),
+          yemekData: JSON.parse(JSON.stringify(yemekData)),
+          giderData: JSON.parse(JSON.stringify(giderData)),
+          snapshots: JSON.parse(JSON.stringify(snapshots)),
+          staffOrder: JSON.parse(JSON.stringify(staffOrder)),
+        };
+
+        const blob = new Blob([JSON.stringify(backupData, null, 2)], {
+          type: "application/json",
+        });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `cafe-yedek-temizleme-${new Date().toISOString().slice(0, 10)}-${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+
+        // 2. TEMİZLE
+        localStorage.removeItem("cpt_staffs");
+        localStorage.removeItem("cpt_yemek");
+        localStorage.removeItem("cpt_gider");
+        localStorage.removeItem("cpt_snapshots");
+        localStorage.removeItem("cpt_order");
+        localStorage.removeItem("cpt_lastCheck");
+
+        // 3. RAM'i temizle
+        staffs = [];
+        yemekData = { entries: [] };
+        giderData = { items: [] };
+        snapshots = [];
+        staffOrder = [];
+
+        // 4. Test modunu kapat
+        clearTestTime();
+
+        // 5. Ekranı güncelle
+        render();
+        updateReportFilters();
+        renderReport();
+        renderArchivePanel();
+
+        alert(
+          "✅ Tüm veriler yedeklendi ve temizlendi!\n\nProgram yeniden başlatılıyor gibi davranacak.",
+        );
+      }
+
+      // ============ ARŞİV ============
+      function getStorageKB() {
+        let total = 0;
+        for (let k in localStorage) {
+          if (!localStorage.hasOwnProperty(k)) continue;
+          total += (localStorage[k].length + k.length) * 2;
+        }
+        return (total / 1024).toFixed(1);
+      }
+
+      function renderArchivePanel() {
+        const kb = parseFloat(getStorageKB());
+        const maxKB = 5120;
+        const pct = Math.min((kb / maxKB) * 100, 100);
+        const daysLeft = Math.floor((maxKB - kb) / 35);
+
+        const storageText = document.getElementById("storageText");
+        const barFill = document.getElementById("storageBarFill");
+        const daysLeftEl = document.getElementById("storageDaysLeft");
+        const storageBar = document.getElementById("storageBar");
+        if (!storageText) return;
+
+        storageText.textContent = `${kb} KB / 5120 KB`;
+        storageBar.textContent = `%${pct.toFixed(1)} dolu`;
+        barFill.style.width = pct + "%";
+        barFill.style.background =
+          pct > 80 ? "var(--red)" : pct > 50 ? "var(--amber)" : "var(--green)";
+        daysLeftEl.textContent =
+          daysLeft > 0
+            ? `Tahminen ${daysLeft} gün daha dayanır (günlük ~35 KB hesabıyla)`
+            : "⚠️ Depolama dolmak üzere! Arşivleyin.";
+
+        // Aylara göre snapshot grupla
+        const monthMap = {};
+        snapshots.forEach((sn) => {
+          const ym = sn.date.slice(0, 7); // "2025-01"
+          if (!monthMap[ym]) monthMap[ym] = { count: 0, dates: [] };
+          monthMap[ym].count++;
+          monthMap[ym].dates.push(sn.date);
+        });
+
+        const list = document.getElementById("archiveMonthList");
+        const months = Object.keys(monthMap).sort().reverse();
+
+        if (!months.length) {
+          list.innerHTML = `<div style="color:var(--dim);font-size:13px;padding:12px 0">Henüz arşivlenecek snapshot yok. Gece yarısı otomatik oluşturulur.</div>`;
+          return;
+        }
+
+        list.innerHTML = months
+          .map((ym) => {
+            const [y, m] = ym.split("-");
+            const monthNames = [
+              "",
+              "Ocak",
+              "Şubat",
+              "Mart",
+              "Nisan",
+              "Mayıs",
+              "Haziran",
+              "Temmuz",
+              "Ağustos",
+              "Eylül",
+              "Ekim",
+              "Kasım",
+              "Aralık",
+            ];
+            const label = `${monthNames[parseInt(m)]} ${y}`;
+            const cnt = monthMap[ym].count;
+            const snKB = (cnt * 35).toFixed(0);
+            return `
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:6px;flex-wrap:wrap;gap:8px">
+  <div>
+    <span style="font-weight:700;font-size:14px">${label}</span>
+    <span style="font-size:12px;color:var(--muted);margin-left:10px">${cnt} gün · ~${snKB} KB</span>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="exportMonth('${ym}')" style="padding:6px 14px;border-radius:8px;border:1px solid rgba(0,230,118,.25);background:var(--green-bg);color:var(--green);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer">
+      💾 İndir
+    </button>
+    <button onclick="deleteMonth('${ym}')" style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,82,82,.25);background:var(--red-bg);color:var(--red);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer">
+      🗑 Sil
+    </button>
+    <button onclick="archiveMonth('${ym}')" style="padding:6px 14px;border-radius:8px;border:1px solid rgba(68,138,255,.25);background:var(--blue-bg);color:var(--blue);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer">
+      📦 Arşivle
+    </button>
+  </div>
+</div>`;
+          })
+          .join("");
+      }
+
+      function exportMonth(ym) {
+        const [y, m] = ym.split("-");
+        const monthNames = [
+          "",
+          "Ocak",
+          "Şubat",
+          "Mart",
+          "Nisan",
+          "Mayıs",
+          "Haziran",
+          "Temmuz",
+          "Ağustos",
+          "Eylül",
+          "Ekim",
+          "Kasım",
+          "Aralık",
+        ];
+        const label = `${monthNames[parseInt(m)]}-${y}`;
+        const monthSnaps = snapshots.filter((sn) => sn.date.startsWith(ym));
+
+        // Bugünün verisi snapshot'a henüz girmemişse onu da ekle
+        const today = todayISO();
+        const todaySnapped = monthSnaps.find((sn) => sn.date === today);
+        let extraSnap = null;
+        if (!todaySnapped && today.startsWith(ym)) {
+          extraSnap = {
+            date: today,
+            dateFmt: new Date().toLocaleDateString("tr-TR"),
+            staffs: staffs.map((s) => ({
+              id: s.id,
+              name: s.name,
+              primCount: s.primCount,
+              primHistory: [...s.primHistory],
+              totalBreakMs:
+                s.totalBreakMs +
+                (s.isAtBreak && s.lastBreakStart
+                  ? Date.now() - s.lastBreakStart
+                  : 0),
+              breakHistory: [...s.breakHistory],
+              totalMesaiMs: activeMesaiMs(s),
+              shiftDate: s.shiftDate,
+            })),
+            yemek: yemekData.entries.filter((e) => e.tarihISO === today),
+            gider: giderData.items.filter((g) => g.tarihISO === today),
+            ts: Date.now(),
+            isLiveSnapshot: true,
+          };
+        }
+
+        const allSnaps = extraSnap ? [...monthSnaps, extraSnap] : monthSnaps;
+        const monthYemek = yemekData.entries.filter((e) =>
+          e.tarihISO.startsWith(ym),
+        );
+        const monthGider = giderData.items.filter((g) =>
+          g.tarihISO.startsWith(ym),
+        );
+
+        const data = {
+          exportDate: new Date().toISOString(),
+          month: ym,
+          snapshots: allSnaps,
+          yemek: monthYemek,
+          gider: monthGider,
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `cafe-arsiv-${label}.json`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        return true; // başarılı
+      }
+
+      function archiveMonth(ym) {
+        // Önce export et, başarılıysa sil
+        const ok = exportMonth(ym);
+        if (ok) deleteMonth(ym, true);
+      }
+
+      function deleteMonth(ym, silent = false) {
+        if (
+          !silent &&
+          !confirm(
+            `${ym} ayına ait tüm snapshot'lar silinecek.\nÖnce indirdiğinizden emin olun!\n\nDevam edilsin mi?`,
+          )
+        )
+          return;
+        snapshots = snapshots.filter((sn) => !sn.date.startsWith(ym));
+        yemekData.entries = yemekData.entries.filter(
+          (e) => !e.tarihISO.startsWith(ym),
+        );
+        giderData.items = giderData.items.filter(
+          (g) => !g.tarihISO.startsWith(ym),
+        );
+        saveSnapshots();
+        saveYemek();
+        saveGider();
+        renderArchivePanel();
+        renderReport();
+      }
+
+      function exportAllJSON() {
+        const data = {
+          exportDate: new Date().toISOString(),
+          version: "full",
+          staffs,
+          yemekData,
+          giderData,
+          snapshots,
+          staffOrder,
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `cafe-tam-yedek-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
+
+      function importJSON(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (data.version === "full") {
+              // Tam yedek yükle
+              if (
+                !confirm(
+                  "Tam yedek yüklenecek. Mevcut tüm verinin üzerine yazılacak!\nDevam edilsin mi?",
+                )
+              )
+                return;
+              if (data.staffs) {
+                staffs = data.staffs;
+                // Eski yedeklerde mesaiBaslamadi eksik olabilir
+                staffs.forEach((s) => {
+                  if (s.mesaiBaslamadi === undefined) s.mesaiBaslamadi = false;
+                });
+              }
+              if (data.yemekData) yemekData = data.yemekData;
+              if (data.giderData) giderData = data.giderData;
+              if (data.snapshots) snapshots = data.snapshots;
+              if (data.staffOrder) staffOrder = data.staffOrder;
+              save();
+              saveYemek();
+              saveGider();
+              saveSnapshots();
+              saveOrder();
+              alert("✅ Tam yedek başarıyla yüklendi!");
+            } else if (data.snapshots) {
+              // Aylık arşiv yükle - mevcut ile birleştir
+              if (
+                !confirm(
+                  `${data.month} ayı arşivi yüklenecek ve mevcut veriye eklenecek.\nDevam edilsin mi?`,
+                )
+              )
+                return;
+              const existingDates = new Set(snapshots.map((s) => s.date));
+              data.snapshots.forEach((sn) => {
+                if (!existingDates.has(sn.date)) snapshots.push(sn);
+              });
+              const existingYemek = new Set(
+                yemekData.entries.map((e) => e.tarihISO + e.saat + e.tutar),
+              );
+              data.yemek.forEach((e) => {
+                const k = e.tarihISO + e.saat + e.tutar;
+                if (!existingYemek.has(k)) yemekData.entries.push(e);
+              });
+              const existingGider = new Set(
+                giderData.items.map((g) => g.tarihISO + g.saat + g.tutar),
+              );
+              data.gider.forEach((g) => {
+                const k = g.tarihISO + g.saat + g.tutar;
+                if (!existingGider.has(k)) giderData.items.push(g);
+              });
+              saveSnapshots();
+              saveYemek();
+              saveGider();
+              alert(`✅ ${data.month} arşivi başarıyla yüklendi!`);
+            } else {
+              alert("❌ Geçersiz dosya formatı.");
+            }
+            renderArchivePanel();
+            renderReport();
+            updateReportFilters();
+          } catch (err) {
+            alert("❌ Dosya okunamadı: " + err.message);
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = "";
+      }
+
+      // ============ TICKER ============
+      // Performans için: Report tab'ında her saniye renderReport çalıştırmak yerine
+      // sadece clock ve midnight check yap, renderReport'u veri değişikliğinde çağır
+      clearInterval(ticker);
+      ticker = setInterval(() => {
+        updateClock();
+        checkMidnight();
+        const staffTab = document.getElementById("tab-staff");
+        if (staffTab && !staffTab.classList.contains("hidden")) render();
+        // Report tab'ında sadece saat güncellenir, renderReport veri değişikliğinde çağrılır
+      }, 1000);
+
+      // ============ INIT ============
+      checkMidnight(); // İlk açılışta hemen kontrol et
+      updateClock();
+      render();
+      updateReportFilters();
+      renderArchivePanel();
+      console.log("✅ Program başlatıldı. Tarih:", todayISO());
+    </script>
+  </body>
+</html>
